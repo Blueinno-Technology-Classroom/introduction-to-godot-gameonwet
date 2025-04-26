@@ -1,4 +1,6 @@
-[gd_scene load_steps=13 format=3 uid="uid://qs1drdpmfx7o"]
+[gd_scene load_steps=18 format=3 uid="uid://qs1drdpmfx7o"]
+
+[ext_resource type="Script" uid="uid://c4cl265ovjfdq" path="res://rocket_player.gd" id="1_0f027"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_o3jxj"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -38,6 +40,17 @@ data = PackedVector3Array(-50, 0.5, 50, 50, 0.5, 50, -50, -0.5, 50, 50, 0.5, 50,
 albedo_color = Color(0, 0, 0, 1)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_2c62f"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8mm7a"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_hq1ik"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nfk4m"]
+albedo_color = Color(0, 1, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_66tet"]
+albedo_color = Color(0.996078, 0, 0, 1)
 
 [node name="MainScene" type="Node3D"]
 
@@ -156,5 +169,32 @@ material = SubResource("StandardMaterial3D_0f027")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/Ball"]
 shape = SubResource("SphereShape3D_2c62f")
 
+[node name="RocketPlayer" type="Node3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 3.12768, -10)
+script = ExtResource("1_0f027")
+
+[node name="Body" type="RigidBody3D" parent="Ground/RocketPlayer"]
+axis_lock_linear_z = true
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Ground/RocketPlayer/Body"]
+transform = Transform3D(1.00018, 0, 0, 0, 1.00018, 0, 0, 0, 1.00018, 0, 0, 0)
+use_collision = true
+material = SubResource("StandardMaterial3D_8mm7a")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/RocketPlayer/Body"]
+shape = SubResource("CylinderShape3D_hq1ik")
+
+[node name="RocketStartPad" type="CSGBox3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.55, -10)
+use_collision = true
+size = Vector3(1, 0.1, 1)
+material = SubResource("StandardMaterial3D_nfk4m")
+
+[node name="RocketLandPad" type="CSGBox3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.55, -10)
+use_collision = true
+size = Vector3(1, 0.1, 1)
+material = SubResource("StandardMaterial3D_66tet")
+
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.990833, 0.0910936, -0.0997602, 0, 0.738455, 0.674302, 0.135093, -0.668121, 0.731686, -0.124287, 6.34337, 10.0161)
+transform = Transform3D(-1, 3.34553e-08, -8.07681e-08, 0, 0.92388, 0.382683, 8.74228e-08, 0.382683, -0.92388, -0.124287, 3.90474, -14.6046)
